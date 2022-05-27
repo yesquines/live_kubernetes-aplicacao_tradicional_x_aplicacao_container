@@ -1,4 +1,4 @@
-# Kubernetes - Aplicação Tradicional x Aplicação em Containers
+# Kubernetes - Aplicação Tradicional x Aplicação em Container
 
 ## whoami
 
@@ -30,4 +30,4 @@
   - `vagrant ssh`
 * Infraestrutura Kubernetes: [Minikube](https://minikube.sigs.k8s.io/docs/start/)
   - `minikube start --nodes 3 --driver virtualbox --container-runtime cri-o --cni calico --addons ingress --addons metrics-server`
-  - `minikube addons disable storage-provisioner default-storageclass'
+  - `minikube addons disable storage-provisioner default-storageclass`
