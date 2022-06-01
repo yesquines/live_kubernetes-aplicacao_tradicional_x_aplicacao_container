@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mysql
+    live: 4linux
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+        live: 4linux
+    spec:
+      containers:
+      - image: mysql:8
+        name: mysql
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+        envFrom:
+        - secretRef:
+            name: mysql-secret
+      volumes:
+      - name: mysql-data
+        persistentVolumeClaim:
+          claimName: claim-volume-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mysql
+    live: 4linux
+  name: svc-mysql
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: mysql
+

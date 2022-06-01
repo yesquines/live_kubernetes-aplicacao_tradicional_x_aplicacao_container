@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-app
+  labels:
+    live: 4linux
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - app.4labs.k8s
+    secretName: app-tls
+  rules:
+  - host: app.4labs.k8s
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-app
+            port:
+              number: 80
