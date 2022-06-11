@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: memcached
+    live: 4linux
+  name: memcached
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memcached
+  template:
+    metadata:
+      labels:
+        app: memcached
+        live: 4linux
+    spec:
+      containers:
+      - image: memcached:alpine
+        name: memcached
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: memcached
+    live: 4linux
+  name: memcached
+spec:
+  ports:
+  - port: 11211
+    protocol: TCP
+    targetPort: 11211
+  selector:
+    app: memcached

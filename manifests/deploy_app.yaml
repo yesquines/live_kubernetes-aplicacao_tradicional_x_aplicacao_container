@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-4linux
+    live: 4linux
+  name: app-4linux
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-4linux
+  template:
+    metadata:
+      labels:
+        app: app-4linux
+        live: 4linux
+    spec:
+      containers:
+      - image: yagoesquines/app-4linux:v1.0
+        name: app-4linux
+        envFrom:
+        - secretRef:
+            name: app-secret
+        volumeMounts:
+        - name: app-php
+          mountPath: /etc/php8/php.ini
+          subPath: php.ini
+      volumes:
+      - name: app-php
+        configMap:
+          name: php-ini
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: app-4linux
+    live: 4linux
+  name: svc-app
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: app-4linux
+
